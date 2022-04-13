@@ -32,6 +32,11 @@ public class Common {
 
     static  {
         // TODO: Here you can instantiate entities/fields
+        Country mexico = new Country(330, 275);
+        Country chile = new Country(330, 550);
+        Country poland = new Country(330, 825);
+        Country nigeria = new Country(330, 1100);
+        Country malaysia = new Country(330, 1375);
     }
 
 
