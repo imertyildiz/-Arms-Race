@@ -48,8 +48,7 @@ public class Corporation extends Entity {
 
     @Override
     public void step() {
-        this.getPosition().setX(this.getPosition().getIntX()+10);
-        this.getPosition().setY(this.getPosition().getIntY()+10);
+        Common.stateFactory(Common.getRandomGenerator().nextInt(4),this);
     }
     // TODO
     // Corporation image is 100 x 100

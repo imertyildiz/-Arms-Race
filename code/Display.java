@@ -38,6 +38,9 @@ public class Display extends JPanel {
         Common.getBoeing().draw((Graphics2D) g);
         Common.getNorthrop_grumman().draw((Graphics2D) g);
         Common.getGeneral_dynamics().draw((Graphics2D) g);
+        for( Order order: Common.getOrders()){
+            order.draw((Graphics2D) g);
+        }
 
     }
 }

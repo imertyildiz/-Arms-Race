@@ -2,9 +2,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Country extends Entity {
     private String name;
@@ -12,17 +9,66 @@ public class Country extends Entity {
     private double cash;
     private double gold;
     private double happiness;
+    private String nickName;
     private Font font = new Font("Verdana", Font.BOLD, 15);
-    private List<Order> orderList = new ArrayList<>();
-    private static final Random randomGenerator = new Random(3215);
 
-    public Country(double x, double y, String name, double worth, double cash, double gold, double happiness) {
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getWorth() {
+        return worth;
+    }
+
+    public void setWorth(double worth) {
+        this.worth = worth;
+    }
+
+    public double getCash() {
+        return cash;
+    }
+
+    public void setCash(double cash) {
+        this.cash = cash;
+    }
+
+    public double getGold() {
+        return gold;
+    }
+
+    public void setGold(double gold) {
+        this.gold = gold;
+    }
+
+    public double getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(double happiness) {
+        this.happiness = happiness;
+    }
+
+    public Country(double x, double y, String name, double worth, double cash, double gold, double happiness, String nickName) {
         super(x, y);
         this.name = name;
         this.worth = worth;
         this.cash = cash;
         this.gold = gold;
         this.happiness = happiness;
+        this.nickName = nickName;
     }
 
     @Override
@@ -39,32 +85,21 @@ public class Country extends Entity {
         g2d.drawString(this.name, this.getPosition().getIntX() + 30, this.getPosition().getIntY() + 50);
         g2d.setFont(font);
         g2d.setColor(Color.BLUE);
-        g2d.drawString("Worth: " + this.worth + "$", this.getPosition().getIntX(), this.getPosition().getIntY() + 75);
+        g2d.drawString("Worth: " + (int) this.worth + "$", this.getPosition().getIntX(), this.getPosition().getIntY() + 75);
         g2d.setFont(font);
         g2d.setColor(new Color(0, 100, 0));
-        g2d.drawString("Cash: " + this.cash + "$", this.getPosition().getIntX(), this.getPosition().getIntY() + 100);
+        g2d.drawString("Cash: " + (int) this.cash + "$", this.getPosition().getIntX(), this.getPosition().getIntY() + 100);
         g2d.setFont(font);
         g2d.setColor(Color.YELLOW);
-        g2d.drawString("Gold: " + this.gold, this.getPosition().getIntX(), this.getPosition().getIntY() + 125);
+        g2d.drawString("Gold: " + (int) this.gold, this.getPosition().getIntX(), this.getPosition().getIntY() + 125);
         g2d.setColor(new Color(180, 0, 0));
         g2d.setFont(font);
-        g2d.drawString("Happiness: " + this.happiness + "%", this.getPosition().getIntX(), this.getPosition().getIntY() + 150);
-        for (Order order : this.orderList) {
-            order.draw(g2d);
-        }
-    }
+        g2d.drawString("Happiness: " + (int) this.happiness + "%", this.getPosition().getIntX(), this.getPosition().getIntY() + 150);
 
+    }
     @Override
     public void step() {
-        int random = randomGenerator.nextInt(50);
-        if (random == 0) {
-            this.orderList.add(new ElectronicsOrder(this.getPosition().getIntX(), this.getPosition().getIntY() - 125, randomGenerator.nextInt(750) + 500, 100, randomGenerator.nextInt(5) + 1));
-        }
-        for (Order order : this.orderList) {
-            order.step();
-        }
-
-
+        Common.orderFactory(Common.getRandomGenerator().nextInt(4), this.getHappiness(), this);
     }
     // TODO
     // Country image is 150 x 150
