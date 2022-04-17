@@ -133,15 +133,15 @@ public class Common {
     static {
         // TODO: Here you can instantiate entities/fields
         lockheed_martin = new Corporation(100, 300, "lockheed_martin", 0, "LMT");
-        lockheed_martin.setState(stateFactoryInitial(randomGenerator.nextInt(4),lockheed_martin));
+        stateFactory(randomGenerator.nextInt(4),lockheed_martin);
         raytheon = new Corporation(425, 300, "raytheon", 0, "RTX");
-        raytheon.setState(stateFactoryInitial(randomGenerator.nextInt(4),raytheon));
+        stateFactory(randomGenerator.nextInt(4),raytheon);
         boeing = new Corporation(750, 300, "boeing", 0, "BA");
-        boeing.setState(stateFactoryInitial(randomGenerator.nextInt(4),boeing));
+        stateFactory(randomGenerator.nextInt(4),boeing);
         northrop_grumman = new Corporation(1075, 300, "northrop_grumman", 0, "NOC");
-        northrop_grumman.setState(stateFactoryInitial(randomGenerator.nextInt(4),northrop_grumman));
+        stateFactory(randomGenerator.nextInt(4),northrop_grumman);
         general_dynamics = new Corporation(1400, 300, "general_dynamics", 0, "GD");
-        general_dynamics.setState(stateFactoryInitial(randomGenerator.nextInt(4), general_dynamics));
+        stateFactory(randomGenerator.nextInt(4),general_dynamics);
     }
 
     public static void stepAllEntities() {
@@ -157,11 +157,10 @@ public class Common {
         }
         // TODO: call other entities' step()
         lockheed_martin.step();
-        if (randomGenerator.nextInt(300) == 0) lockheed_martin.step();
-        if (randomGenerator.nextInt(300) == 0) raytheon.step();
-        if (randomGenerator.nextInt(300) == 0) boeing.step();
-        if (randomGenerator.nextInt(300) == 0) northrop_grumman.step();
-        if (randomGenerator.nextInt(300) == 0) general_dynamics.step();
+        raytheon.step();
+        boeing.step();
+        northrop_grumman.step();
+        general_dynamics.step();
 
         if (randomGenerator.nextInt(50) == 0) mexico.step();
         if (randomGenerator.nextInt(50) == 0) chile.step();
@@ -178,29 +177,15 @@ public class Common {
 
     public static void stateFactory(int whichState, Corporation corporation) {
         if (whichState == 0) {
-            corporation.setState(new ChaseClosest());
+            corporation.setState(new ChaseClosest(corporation));
         } else if (whichState == 1) {
-            corporation.setState(new GotoXY());
+            corporation.setState(new GotoXY(corporation));
 
         } else if (whichState == 2) {
-            corporation.setState(new Rest());
+            corporation.setState(new Rest(corporation));
 
         } else {
-            corporation.setState(new Shake());
-        }
-    }
-
-    public static State stateFactoryInitial(int whichState, Corporation corporation) {
-        if (whichState == 0) {
-            return new ChaseClosest();
-        } else if (whichState == 1) {
-            return new GotoXY();
-
-        } else if (whichState == 2) {
-            return new Rest();
-
-        } else {
-            return new Shake();
+            corporation.setState(new Shake(corporation));
         }
     }
 

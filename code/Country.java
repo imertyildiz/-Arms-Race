@@ -94,7 +94,7 @@ public class Country extends Entity {
         g2d.drawString("Gold: " + (int) this.gold, this.getPosition().getIntX(), this.getPosition().getIntY() + 125);
         g2d.setColor(new Color(180, 0, 0));
         g2d.setFont(font);
-        g2d.drawString("Happiness: " + (int) this.happiness + "%", this.getPosition().getIntX(), this.getPosition().getIntY() + 150);
+        g2d.drawString("Happiness: " + String.format("%.1f", this.happiness ) + "%", this.getPosition().getIntX(), this.getPosition().getIntY() + 150);
 
     }
     @Override

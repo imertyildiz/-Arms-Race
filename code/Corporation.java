@@ -6,9 +6,24 @@ import java.io.File;
 public class Corporation extends Entity {
     private String name;
     private double cash;
-    private Font font = new Font("Verdana", Font.BOLD, 15);
+    private static Font font = new Font("Verdana", Font.BOLD, 15);
     private String corporationName;
-    public State state;
+    private State state;
+    private boolean isAwardedWhite = false;
+    private boolean isAwardedYellow = false;
+    private boolean isAwardedRed = false;
+
+    public void setAwardedWhite(boolean awardedWhite) {
+        isAwardedWhite = awardedWhite;
+    }
+
+    public void setAwardedYellow(boolean awardedYellow) {
+        isAwardedYellow = awardedYellow;
+    }
+
+    public void setAwardedRed(boolean awardedRed) {
+        isAwardedRed = awardedRed;
+    }
 
     public void setState(State state) {
         this.state = state;
@@ -18,11 +33,19 @@ public class Corporation extends Entity {
         return this.state;
     }
 
+    public double getCash() {
+        return cash;
+    }
+
+    public void setCash(double cash) {
+        this.cash = cash;
+    }
+
     public Corporation(double x, double y, String name, double cash, String corporationName) {
         super(x, y);
         this.name = name;
         this.cash = cash;
-        this.corporationName =corporationName;
+        this.corporationName = corporationName;
     }
 
     @Override
@@ -30,25 +53,37 @@ public class Corporation extends Entity {
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File("images/" + this.name+ ".png"));
-            g2d.drawImage(image, this.getPosition().getIntX() - 25, this.getPosition().getIntY(), 100, 100, null);
+            g2d.drawImage(image, this.getPosition().getIntX() - 50, this.getPosition().getIntY()-50, 100, 100, null);
         } catch (Exception e) {
             System.out.println(e);
         }
         g2d.setColor(Color.BLACK);
         g2d.setFont(font);
-        g2d.drawString(corporationName, this.getPosition().getIntX(), this.getPosition().getIntY()-10);
+        g2d.drawString(corporationName, this.getPosition().getIntX()-15, this.getPosition().getIntY()-60);
         g2d.setFont(font);
         g2d.setColor(Color.BLUE);
-        g2d.drawString(this.getState().getClass().getName(), this.getPosition().getIntX(), this.getPosition().getIntY()+125);
+        g2d.drawString(this.getState().getClass().getName(), this.getPosition().getIntX()-40, this.getPosition().getIntY()+75);
         g2d.setFont(font);
         g2d.setColor(new Color(180, 0, 0));
-        g2d.drawString(this.cash + "" , this.getPosition().getIntX(), this.getPosition().getIntY() + 150);
-
+        g2d.drawString((int) this.cash + "" , this.getPosition().getIntX()-40, this.getPosition().getIntY() + 100);
+        if (this.isAwardedWhite){
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(this.getPosition().getIntX() - 50, this.getPosition().getIntY() -100,20,20);
+        }
+        if (this.isAwardedYellow){
+            g2d.setColor(Color.YELLOW);
+            g2d.fillRect(this.getPosition().getIntX() - 20, this.getPosition().getIntY() -100,20,20);
+        }
+        if (this.isAwardedRed){
+            g2d.setColor(Color.RED);
+            g2d.fillRect(this.getPosition().getIntX() + 10, this.getPosition().getIntY() -100,20,20);
+        }
     }
 
     @Override
     public void step() {
-        Common.stateFactory(Common.getRandomGenerator().nextInt(4),this);
+        this.state.performAction();
+        if (Common.getRandomGenerator().nextInt(50) == 0) Common.stateFactory(Common.getRandomGenerator().nextInt(4),this);
     }
     // TODO
     // Corporation image is 100 x 100

@@ -6,6 +6,12 @@ public class BuyGoldOrder extends GoldOrder {
     private int amount;
     private Country country;
 
+    public int getAmount() {
+        return amount;
+    }
+    public Country getCountry(){
+        return this.country;
+    }
     public BuyGoldOrder(double x, double y, double targetX, double targetY, int amount, Country country) {
         super(x, y);
         this.amount = amount;
