@@ -99,7 +99,11 @@ public class Country extends Entity {
     }
     @Override
     public void step() {
-        Common.orderFactory(Common.getRandomGenerator().nextInt(4), this.getHappiness(), this);
+        // this step function is called by a random time.
+        // In the country's step I just create an order with a random number
+        // orderFactory and order's inner implementations handles everything necessary
+        // For further explanations visit the orderFactory function and order's step functions
+        Common.orderFactory(Common.getRandomGenerator().nextInt(4),this);
     }
     // TODO
     // Country image is 150 x 150

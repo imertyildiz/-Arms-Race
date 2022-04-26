@@ -50,13 +50,16 @@ public class Corporation extends Entity {
 
     @Override
     public void draw(Graphics2D g2d) {
+        // ImageIO is used for reading image.
         BufferedImage image = null;
         try {
+            // Path is written for the working directory is 'hw1'
             image = ImageIO.read(new File("images/" + this.name+ ".png"));
             g2d.drawImage(image, this.getPosition().getIntX() - 50, this.getPosition().getIntY()-50, 100, 100, null);
         } catch (Exception e) {
             System.out.println(e);
         }
+        // drawing parts of Corporations.
         g2d.setColor(Color.BLACK);
         g2d.setFont(font);
         g2d.drawString(corporationName, this.getPosition().getIntX()-15, this.getPosition().getIntY()-60);
@@ -66,6 +69,7 @@ public class Corporation extends Entity {
         g2d.setFont(font);
         g2d.setColor(new Color(180, 0, 0));
         g2d.drawString((int) this.cash + "" , this.getPosition().getIntX()-40, this.getPosition().getIntY() + 100);
+        // Awards are controlled by three different boolean value.
         if (this.isAwardedWhite){
             g2d.setColor(Color.WHITE);
             g2d.fillRect(this.getPosition().getIntX() - 50, this.getPosition().getIntY() -100,20,20);
@@ -82,8 +86,13 @@ public class Corporation extends Entity {
 
     @Override
     public void step() {
+        // A corporation has a state, and it doesn't know which state.
+        // Then, It calls the performAction function of their super class
+        // this action should not be happen randomly, so this step function is called directly.
         this.state.performAction();
-        if (Common.getRandomGenerator().nextInt(50) == 0) Common.stateFactory(Common.getRandomGenerator().nextInt(4),this);
+        // Changing the state of Corporation is randomly happen.
+        // It uses the stateFactory function of Common Class with a randomly generated parameter
+        if (Common.getRandomGenerator().nextInt(40) == 0) Common.stateFactory(Common.getRandomGenerator().nextInt(4),this);
     }
     // TODO
     // Corporation image is 100 x 100

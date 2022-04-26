@@ -10,7 +10,7 @@ public class FoodOrder extends Order {
         super(x, y);
         this.amount = amount;
         this.country = country;
-        int speedRandom = Common.getRandomGenerator().nextInt(50) + 20;
+        int speedRandom = Common.getRandomGenerator().nextInt(15) + 20;
         this.speedX = (targetX - this.getPosition().getIntX()) / speedRandom;
         this.speedY = (targetY - this.getPosition().getIntY()) / speedRandom;
     }
@@ -27,8 +27,12 @@ public class FoodOrder extends Order {
 
     @Override
     public void step() {
+        // Moving to the target
         this.getPosition().setX(this.getPosition().getIntX() + this.speedX);
         this.getPosition().setY(this.getPosition().getIntY() + this.speedY);
+        // Checking the order coordinate if it is now at horizontal line,
+        // and then, it will be deleted and necessary calculations is done here.
+        // updating the countries' cash gold and worth according to pdf calculations.
         if (this.getPosition().getIntY() <= 100) {
             this.country.setCash(this.country.getCash() - amount * Common.getFoodPrice().getCurrentPrice());
             this.country.setHappiness(this.country.getHappiness() + amount * 0.2);
